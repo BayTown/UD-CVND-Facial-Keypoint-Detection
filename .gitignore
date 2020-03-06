@@ -1,0 +1,6 @@
+# Exclude folders to prevent all images from being uploaded
+data/*
+images/*
+
+# Exclude Jupyter checkpoints
+.ipynb_checkpoints
