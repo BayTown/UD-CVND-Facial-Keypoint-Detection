@@ -22,17 +22,18 @@ class Net(nn.Module):
         # 1 input image channel (grayscale), 32 output channels/feature maps, 5x5 square convolution kernel
         self.conv1 = nn.Conv2d(1, 32, 5)
         self.conv2 = nn.Conv2d(32, 64, 5)
-        self.conv3 = nn.Conv2d(64, 64, 5)
+        self.conv3 = nn.Conv2d(64, 128, 5)
+        self.conv4 = nn.Conv2d(128, 128, 5)
         
         ## Note that among the layers to add, consider including:
         # maxpooling layers, multiple conv layers, fully-connected layers, and other layers (such as dropout or batch normalization) to avoid overfitting
         
         self.pool = nn.MaxPool2d(2, 2)
 
-        self.fc1 = nn.Linear(12000, 2048)
-        self.fc2 = nn.Linear(2048, 136)
+        self.fc1 = nn.Linear(12800, 4096)
+        self.fc2 = nn.Linear(4096, 136)
 
-        self.dropout = nn.Dropout(0.3)
+        self.dropout = nn.Dropout(0.4)
         
 
     def forward(self, x):
@@ -46,6 +47,8 @@ class Net(nn.Module):
         x = self.pool(x)
         x = F.relu(self.conv3(x))
         x = self.pool(x)
+        x = F.relu(self.conv4(x))
+        x = self.pool(x)
         
         # Flatten layer to convert the pooled feature maps to a single vectorn
         x = x.view(x.size()[0], -1)
@@ -53,7 +56,7 @@ class Net(nn.Module):
         x = self.dropout(x)
         x = F.relu(self.fc1(x))
         x = self.dropout(x)
-        x = F.relu(self.fc2(x))
-
+        x = self.fc2(x)
+        
         # a modified x, having gone through all the layers of your model, should be returned
         return x
