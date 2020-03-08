@@ -24,7 +24,7 @@ class Net(nn.Module):
         self.conv2 = nn.Conv2d(32, 64, 5)
         self.conv3 = nn.Conv2d(64, 128, 5)
         self.conv4 = nn.Conv2d(128, 128, 5)
-        
+
         ## Note that among the layers to add, consider including:
         # maxpooling layers, multiple conv layers, fully-connected layers, and other layers (such as dropout or batch normalization) to avoid overfitting
         
@@ -50,7 +50,7 @@ class Net(nn.Module):
         x = F.relu(self.conv4(x))
         x = self.pool(x)
         
-        # Flatten layer to convert the pooled feature maps to a single vectorn
+        # Flatten layer to convert the pooled feature maps to a single vector
         x = x.view(x.size()[0], -1)
 
         x = self.dropout(x)
